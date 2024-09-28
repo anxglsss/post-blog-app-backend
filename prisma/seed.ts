@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   await prisma.$executeRaw`TRUNCATE TABLE "Comment", "Post", "User" RESTART IDENTITY CASCADE`;
-  // Create users
+
   const user1 = await prisma.user.create({
     data: {
       email: 'user1@example.com',
@@ -21,7 +21,6 @@ async function main() {
     },
   });
 
-  // Create posts
   const post1 = await prisma.post.create({
     data: {
       title: 'First Post',
@@ -43,10 +42,12 @@ async function main() {
       {
         content: 'Great post!',
         postId: post1.id,
+        authorId: user2.id,
       },
       {
         content: 'Very helpful, thanks!',
         postId: post2.id,
+        authorId: user1.id,
       },
     ],
   });

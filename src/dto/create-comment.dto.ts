@@ -8,4 +8,8 @@ export class CreateCommentDto {
   @IsNotEmpty()
   @IsNumber()
   postId: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  authorId: number;
 }
