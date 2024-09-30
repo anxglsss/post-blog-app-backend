@@ -12,17 +12,21 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string) {
+  async validateUser(email: string, password: string, name: string) {
     const user = await this.prismaService.user.findUnique({ where: { email } });
 
-    if (!user || !(await this.verifyPassword(user.password, password))) {
+    if (
+      !user ||
+      !(await this.verifyPassword(user.password, password)) ||
+      user.name !== name
+    ) {
       throw new UnauthorizedException('Invalid credentials');
     }
     return user;
   }
 
   async verifyPassword(userPassword: string, password: string) {
-    return bcrypt.compare(userPassword, password);
+    return await bcrypt.compare(password, userPassword);
   }
 
   async login(user: User) {

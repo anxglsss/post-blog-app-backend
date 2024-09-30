@@ -6,11 +6,14 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
+import { LoggingInterceptor } from 'src/interceptors/logging.interceptor';
 import { CreateLikeDto } from '../dto/create-like.dto';
 import { LikeService } from './like.service';
 
 @Controller('like')
+@UseInterceptors(LoggingInterceptor)
 export class LikeController {
   constructor(private readonly likeService: LikeService) {}
 

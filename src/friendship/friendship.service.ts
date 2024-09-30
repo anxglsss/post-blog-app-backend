@@ -12,15 +12,15 @@ export class FriendshipService {
     return await this.prisma.friendship.create({ data: { user1Id, user2Id } });
   }
 
+  async deleteFriendship(id: number): Promise<Friendship> {
+    return await this.prisma.friendship.delete({ where: { id } });
+  }
+
   async getFriendsForUser(userId: number): Promise<Friendship[]> {
     return await this.prisma.friendship.findMany({
       where: {
         OR: [{ user1Id: userId }, { user2Id: userId }],
       },
     });
-  }
-
-  async deleteFriendship(id: number): Promise<Friendship> {
-    return await this.prisma.friendship.delete({ where: { id } });
   }
 }

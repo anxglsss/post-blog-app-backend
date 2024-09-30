@@ -6,11 +6,14 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
+import { LoggingInterceptor } from 'src/interceptors/logging.interceptor';
 import { CreateFavoriteDto } from '../dto/create-favorite.dto';
 import { FavoriteService } from './favorite.service';
 
 @Controller('favorite')
+@UseInterceptors(LoggingInterceptor)
 export class FavoriteController {
   constructor(private readonly favoriteService: FavoriteService) {}
 

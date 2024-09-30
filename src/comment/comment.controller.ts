@@ -6,11 +6,14 @@ import {
   Param,
   Post,
   Put,
+  UseInterceptors,
 } from '@nestjs/common';
+import { LoggingInterceptor } from 'src/interceptors/logging.interceptor';
 import { CreateCommentDto } from '../dto/create-comment.dto';
 import { CommentService } from './comment.service';
 
 @Controller('comment')
+@UseInterceptors(LoggingInterceptor)
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
@@ -25,8 +28,8 @@ export class CommentController {
   }
 
   @Post()
-  create(@Body() item: CreateCommentDto) {
-    return this.commentService.create(item);
+  async create(@Body() item: CreateCommentDto) {
+    return await this.commentService.create(item);
   }
 
   @Put(':id')

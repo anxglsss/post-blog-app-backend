@@ -29,6 +29,16 @@ export class RequestService {
     });
   }
 
+  async deleteRequest(id: number): Promise<Request> {
+    const request = await this.prisma.request.findFirst({
+      where: { id },
+    });
+    if (!request) throw new NotFoundException('Request not found');
+    return await this.prisma.request.delete({
+      where: { id },
+    });
+  }
+
   async getRequestsByUser(id: number): Promise<Request[]> {
     return await this.prisma.request.findMany({
       where: {

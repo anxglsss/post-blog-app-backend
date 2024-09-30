@@ -13,12 +13,12 @@ import {
 import { CreatePostDto } from '../dto/create-post.dto';
 import { UpdatePostDto } from '../dto/update-post.dto';
 
-import { TransformInterceptor } from 'src/transform.interceptor';
+import { LoggingInterceptor } from 'src/interceptors/logging.interceptor';
 import { ValidatePricePipe } from './pipes/validate-price.pipe';
 import { PostService } from './post.service';
 
 @Controller('post')
-@UseInterceptors(TransformInterceptor)
+@UseInterceptors(LoggingInterceptor)
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
@@ -34,8 +34,8 @@ export class PostController {
 
   @Post()
   @UsePipes(ValidatePricePipe)
-  create(@Body() item: CreatePostDto) {
-    return this.postService.create(item);
+  async createPost(@Body() createPostDto: CreatePostDto) {
+    return await this.postService.create(createPostDto);
   }
 
   @Put(':id')
